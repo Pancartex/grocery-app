@@ -56,14 +56,14 @@ class Item {
 
             
             const quantityInput = document.getElementById(`quantity${id}`)
-            const totalItemPrice = document.getElementById(`total${id}`)
+            const totalPriceParagraph = document.getElementById(`total${id}`)
             quantityInput.addEventListener("input", function() {
-                totalItemPrice.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`
+                totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`
 
             })
 
             document.getElementById(`btn${id}`).addEventListener("click", () => {
-                // push totalItemPrice value to checkout card
+                // push ${(quantityInput.value * price) value to checkout card
                 // clear input field back to value="1"
             })
             
