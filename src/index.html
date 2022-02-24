@@ -3,6 +3,10 @@
   <head>
     <title>Grocery</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/766653e7dc.js" crossorigin="anonymous"></script>
   </head>
   <body>
 
@@ -12,17 +16,17 @@
         <ul class="list-container"></ul>
       </div>
 
-      <!-- BELOW IS THE CHECKOUT CARD. I focused on doing the #main part first. Feel free to modify it or recode it if you want. I didnt connect any JS to it.
-        
       <div id="checkout-card" class="sticky">
-        <h5>Checkout</h5>
-        <br />
-        <ul class="checkout-items">
-          <li></li>
-        </ul>
-        <br />
-        <button id="checkout-btn">Checkout</button>
-      </div> -->
+
+        <h5 class="checkout-header">checkout <span id="added-to-cart" class="run-animation"></span></h5>
+        
+        <div id="checkout-content" style="display: none;">
+          <br />
+          <ul class="checkout-items"></ul>
+          <br />
+          <button id="checkout-btn">Checkout</button>
+        </div> 
+      </div>
 
     </div> <!--  closing the wrapper div -->
 

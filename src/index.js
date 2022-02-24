@@ -35,10 +35,11 @@ class Item {
     Object.assign(this, data)
     this.itemNode = this.createItemNode()
     
+    
   }
   
       createItemNode() {
-        const { id, name, description, image, price } = this;
+        const { name, description, image, price } = this;
         const li = document.createElement('li')
          li.innerHTML = `
           <img class="item-img" src="${image}">
@@ -57,15 +58,31 @@ class Item {
         }
 
       setupEventListeners() {
-        const { id, name, description, image, price } = this;
+        const { name, image, price } = this;
         const quantityInput = this.itemNode.querySelector('input');
         const totalPriceParagraph = this.itemNode.querySelector('#total')
+        const addToCart = this.itemNode.querySelector('button')
+        const checkoutLi = document.createElement('li')
+        const checkoutItems = document.querySelector('.checkout-items')
+        const addedToCart = document.getElementById('added-to-cart')
+        checkoutLi.classList.add('checkout-list')
 
-        quantityInput.addEventListener("input", function() {
+        quantityInput.addEventListener("input", () => {
           totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
         })
 
-        // add logic for the button here, to be able to push to checkout
+        addToCart.addEventListener('click', e => {
+          e.preventDefault()
+          checkoutLi.innerHTML = `
+            <img class="checkout-img" src="${image}">
+            <p>${quantityInput.value}x ${name} - $${(quantityInput.value * price).toFixed(2)}</p>
+            <button class="delete-checkout-btn"><i class="fa-solid fa-xmark"></i></button>
+            `
+            checkoutItems.append(checkoutLi)
+
+            addedToCart.textContent = `          added ${quantityInput.value}x ${name} to cart`
+        })
+
       }
 
       render() {
@@ -76,6 +93,7 @@ class Item {
     
 }
 
+
 const milk = new Item(groceryItems.milk)
 const crisp = new Item(groceryItems.crisp)
 const eggs = new Item(groceryItems.eggs)
@@ -85,6 +103,20 @@ milk.render()
 crisp.render()
 eggs.render()
 bread.render()
+
+// function for mobile functionality & logic below
+
+const checkoutHeader = document.querySelector('.checkout-header')
+const checkoutContent = document.getElementById('checkout-content')
+
+checkoutHeader.addEventListener("click", () => {
+  
+    if (checkoutContent.style.display === "none") {
+      checkoutContent.style.display = "block"
+    } else {
+      checkoutContent.style.display = "none"
+    }
+})
 
 
 
