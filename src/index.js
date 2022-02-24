@@ -29,56 +29,78 @@ const groceryItems = {
     }
 }
 
+const INPUT_CONSTRAINTS = {
+  default: 0,
+  min: 0,
+  max: 99,
+}
 
+class Product {
+  static nextId = 0;
 
-class Item {
-  constructor(data) {
+  constructor({ id, name, price, description, image } = {}) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.image = image;
+    this.node = null;
+  }
 
-    Object.assign(this, data)
+  render(parent) {
+    this.node = document.createElement('li');
+    this.node.id = `item-${Product.nextId++}`;
+    this.node.className = "item-box";
+    this.node.innerHTML = `
+      <img class="item-img" src="${this.image}">    
+      <h2>${this.name}</h2>
+      <p>$${this.price} per Item</p>
+      <p>${this.description}</p>
+      <div class="item-footer">
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" value="${INPUT_CONSTRAINTS.default}" min="${INPUT_CONSTRAINTS.min}" max="${INPUT_CONSTRAINTS.max}">
+        <p class="total-price">${this.getTotalPrice()}</p>
+        <button class="item-btn">Add to cart</button>
+      </div>
+    `;
+    parent.appendChild(this.node);
+    this.addEventListeners();
+  }
 
-      this.summarizeItem = function() {
-        const { id, name, description, image, price } = this;
-        document.getElementById(id).innerHTML = `
-          
-          <img class="item-img" src="${image}">
-          
-          <h2>${name}</h2>
-          <p>$${price} per Item</p>
-          <p>${description}</p>
-          <div class="item-footer">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity${id}" name="quantity" value="1" min="1" max="99">
-            <p id="total${id}">Total: $${(price).toFixed(2)}</p>
-            <button class="item-btn" id="btn${id}">Add to cart</button>
-          </div>`;
+  getTotalPrice() {
+    const quantity = this.quantityInput ? this.quantityInput.value : INPUT_CONSTRAINTS.default;
+    return `Total: $${(quantity * this.price).toFixed(2)}`;
+  }
 
-        const quantityInput = document.getElementById(`quantity${id}`)
-        const totalPriceParagraph = document.getElementById(`total${id}`)
+  addEventListeners() {
+    this.quantityInput.addEventListener("input", () => {
+      this.totalPriceParagraph.textContent = this.getTotalPrice();
+    });
+    this.addToCartButton.addEventListener("click", () => {
+      console.log("TODO: Implement add to cart")
+    });
+  }
 
-        quantityInput.addEventListener("input", function() {
-          totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`
+  get addToCartButton() {
+    return this.node.querySelector('.item-btn');
+  }
 
-        })
+  get quantityInput() {
+    return this.node.querySelector('input[name="quantity"]');
+  }
 
-        document.getElementById(`btn${id}`).addEventListener("click", () => {
-          // push ${(quantityInput.value * price) value to checkout card
-          // clear input field back to value="1"
-        })
-        
-    };    
+  get totalPriceParagraph() {
+    return this.node.querySelector('.total-price');
   }
 }
 
-const milk = new Item(groceryItems.milk)
-const crisp = new Item(groceryItems.crisp)
-const eggs = new Item(groceryItems.eggs)
-const bread = new Item(groceryItems.bread)
+const milk = new Product(groceryItems.milk)
+const crisp = new Product(groceryItems.crisp)
+const eggs = new Product(groceryItems.eggs)
+const bread = new Product(groceryItems.bread)
 
-milk.summarizeItem()
-crisp.summarizeItem()
-eggs.summarizeItem()
-bread.summarizeItem()
-
-
-
-
+const listContainer = document.querySelector('.list-container');
+milk.render(listContainer)
+crisp.render(listContainer)
+eggs.render(listContainer)
+bread.render(listContainer)
