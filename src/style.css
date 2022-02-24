@@ -95,10 +95,14 @@ html, body {
     transition: 0.25s;
 }
 
-.run-animation {
-    animation: fadeVisibility s;
+.checkout-list {
+    list-style-type: none;
+    padding: 0 15px;
 }
 
+.checkout-item {
+    display: flex;
+}
 
 @keyframes fadeVisibility {
     0% { opacity: 0 }

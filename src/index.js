@@ -34,8 +34,8 @@ class Item {
 
     Object.assign(this, data)
     this.itemNode = this.createItemNode()
-    
-    
+    this.checkoutItemNode = this.createCheckoutItem()
+    this.quantityInput = this.itemNode.querySelector('input') // ???? .value?
   }
   
       createItemNode() {
@@ -57,31 +57,46 @@ class Item {
           return li
         }
 
+      createCheckoutItem() {
+        const { name, image, price, quantityInput } = this;
+        const checkoutItem = document.createElement('li')
+        checkoutItem.classList.add('checkout-item')
+        
+        checkoutItem.innerHTML = `
+            <img class="checkout-img" src="${image}">
+            <p></p>
+            <button class="delete-checkout-btn"><i class="fa-solid fa-xmark"></i></button>
+            `
+            return checkoutItem
+      }
+
       setupEventListeners() {
-        const { name, image, price } = this;
-        const quantityInput = this.itemNode.querySelector('input');
+        const { name, price, quantityInput } = this;
         const totalPriceParagraph = this.itemNode.querySelector('#total')
         const addToCart = this.itemNode.querySelector('button')
-        const checkoutLi = document.createElement('li')
-        const checkoutItems = document.querySelector('.checkout-items')
-        const addedToCart = document.getElementById('added-to-cart')
-        checkoutLi.classList.add('checkout-list')
+        const checkoutList = document.querySelector('.checkout-list')
+        const addedToCartHeader = document.getElementById('added-to-cart')
+        const deleteFromCart = this.checkoutItemNode.querySelector('.delete-checkout-btn')
+        const checkoutParagraph = this.checkoutItemNode.querySelector('p') // ??????
 
         quantityInput.addEventListener("input", () => {
           totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
         })
 
-        addToCart.addEventListener('click', e => {
-          e.preventDefault()
-          checkoutLi.innerHTML = `
-            <img class="checkout-img" src="${image}">
-            <p>${quantityInput.value}x ${name} - $${(quantityInput.value * price).toFixed(2)}</p>
-            <button class="delete-checkout-btn"><i class="fa-solid fa-xmark"></i></button>
-            `
-            checkoutItems.append(checkoutLi)
+        addToCart.addEventListener('click', () => {
+          checkoutList.append(this.checkoutItemNode)
+          checkoutParagraph.textContent = `${quantityInput.value}x ${name} - $${(quantityInput.value * price).toFixed(2)}`
+          addedToCartHeader.textContent = ` - added ${quantityInput.value}x ${name} to cart`
+          quantityInput.value = 1;
+          totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
 
-            addedToCart.textContent = `          added ${quantityInput.value}x ${name} to cart`
         })
+
+        deleteFromCart.addEventListener('click', () => {
+          this.checkoutItemNode.remove()
+        })
+
+        
 
       }
 
