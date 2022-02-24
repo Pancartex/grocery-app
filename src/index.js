@@ -29,17 +29,18 @@ const groceryItems = {
     }
 }
 
-
-
 class Item {
   constructor(data) {
 
     Object.assign(this, data)
-
-      this.summarizeItem = function() {
+    this.itemNode = this.createItemNode()
+    
+  }
+  
+      createItemNode() {
         const { id, name, description, image, price } = this;
-        document.getElementById(id).innerHTML = `
-          
+        const li = document.createElement('li')
+         li.innerHTML = `
           <img class="item-img" src="${image}">
           
           <h2>${name}</h2>
@@ -47,26 +48,32 @@ class Item {
           <p>${description}</p>
           <div class="item-footer">
             <label for="quantity">Quantity</label>
-            <input type="number" id="quantity${id}" name="quantity" value="1" min="1" max="99">
-            <p id="total${id}">Total: $${(price).toFixed(2)}</p>
-            <button class="item-btn" id="btn${id}">Add to cart</button>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
+            <p id="total">Total: $${(price).toFixed(2)}</p>
+            <button class="item-btn" id="btn">Add to cart</button>
           </div>`;
+          li.classList.add('item-box')
+          return li
+        }
 
-        const quantityInput = document.getElementById(`quantity${id}`)
-        const totalPriceParagraph = document.getElementById(`total${id}`)
+      setupEventListeners() {
+        const { id, name, description, image, price } = this;
+        const quantityInput = this.itemNode.querySelector('input');
+        const totalPriceParagraph = this.itemNode.querySelector('#total')
 
         quantityInput.addEventListener("input", function() {
-          totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`
-
+          totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
         })
 
-        document.getElementById(`btn${id}`).addEventListener("click", () => {
-          // push ${(quantityInput.value * price) value to checkout card
-          // clear input field back to value="1"
-        })
-        
-    };    
-  }
+        // add logic for the button here, to be able to push to checkout
+      }
+
+      render() {
+        const listContainer = document.querySelector('.list-container')
+        listContainer.append(this.itemNode)
+        this.setupEventListeners()
+      }
+    
 }
 
 const milk = new Item(groceryItems.milk)
@@ -74,10 +81,11 @@ const crisp = new Item(groceryItems.crisp)
 const eggs = new Item(groceryItems.eggs)
 const bread = new Item(groceryItems.bread)
 
-milk.summarizeItem()
-crisp.summarizeItem()
-eggs.summarizeItem()
-bread.summarizeItem()
+milk.render()
+crisp.render()
+eggs.render()
+bread.render()
+
 
 
 
