@@ -32,45 +32,41 @@ const groceryItems = {
 
 
 class Item {
-    constructor(data) {
-        this.id = data.id;
-        this.name = data.name;
-        this.description = data.description;
-        this.image = data.image;
-        this.price = data.price;
-        this.summarizeItem = function() {
-            const { id, name, description, image, price } = this;
-            document.getElementById(id).innerHTML = `
-            <div>
-                <img class="item-img" src="${image}">
-            </div>
-            <h2>${name}</h2>
-            <p>$${price} per Item</p>
-            <p>${description}</p>
-            <div class="item-footer">
-                <label for="quantity">Quantity</label>
-                <input type="number" id="quantity${id}" name="quantity" value="1" min="1" max="99">
-                <p id="total${id}">Total: $${(price).toFixed(2)}</p>
-                <button class="item-btn" id="btn${id}">Add to cart</button>
-            </div>`;
+  constructor(data) {
 
-            
-            const quantityInput = document.getElementById(`quantity${id}`)
-            const totalPriceParagraph = document.getElementById(`total${id}`)
-            quantityInput.addEventListener("input", function() {
-                totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`
+    Object.assign(this, data)
 
-            })
+      this.summarizeItem = function() {
+        const { id, name, description, image, price } = this;
+        document.getElementById(id).innerHTML = `
+          
+          <img class="item-img" src="${image}">
+          
+          <h2>${name}</h2>
+          <p>$${price} per Item</p>
+          <p>${description}</p>
+          <div class="item-footer">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity${id}" name="quantity" value="1" min="1" max="99">
+            <p id="total${id}">Total: $${(price).toFixed(2)}</p>
+            <button class="item-btn" id="btn${id}">Add to cart</button>
+          </div>`;
 
-            document.getElementById(`btn${id}`).addEventListener("click", () => {
-                // push ${(quantityInput.value * price) value to checkout card
-                // clear input field back to value="1"
-            })
-            
-        };
+        const quantityInput = document.getElementById(`quantity${id}`)
+        const totalPriceParagraph = document.getElementById(`total${id}`)
 
+        quantityInput.addEventListener("input", function() {
+          totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`
+
+        })
+
+        document.getElementById(`btn${id}`).addEventListener("click", () => {
+          // push ${(quantityInput.value * price) value to checkout card
+          // clear input field back to value="1"
+        })
         
-    }
+    };    
+  }
 }
 
 const milk = new Item(groceryItems.milk)
