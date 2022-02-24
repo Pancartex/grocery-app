@@ -26,6 +26,13 @@ const groceryItems = {
         description: "Fresh from this morning",
         image: "http://www.canadabreadfoodservice.ca/wp-content/uploads/350.jpg",
         price: 2.69
+    },
+    cheese: {
+        id: 5,
+        name: "cheese",
+        description: "swiss cheese",
+        image: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F19%2F2019%2F07%2F09%2Fswiss-cheese-2000.jpg",
+        price: 6.99
     }
 }
 
@@ -96,7 +103,7 @@ class Item {
           this.checkoutItemNode.remove()
         })
 
-        
+
 
       }
 
@@ -113,11 +120,13 @@ const milk = new Item(groceryItems.milk)
 const crisp = new Item(groceryItems.crisp)
 const eggs = new Item(groceryItems.eggs)
 const bread = new Item(groceryItems.bread)
+const cheese = new Item(groceryItems.cheese)
 
 milk.render()
 crisp.render()
 eggs.render()
 bread.render()
+cheese.render()
 
 // function for mobile functionality & logic below
 
