@@ -2,15 +2,15 @@ const groceryItems = {
     milk: {
         id: 1,
         name: "Milk",
-        description: "Before the late 1960s, milk was packaged in heavy, reusable Imperial unit glass milk bottles and later cardboard cartons and plastic jugs. Now plastic bags!",
+        description: "Before the late 1960s, milk was packaged in heavy, Now plastic bags!",
         image: "https://i.stack.imgur.com/ofltz.jpg",
         price: 1.99
     },
     crisp: {
         id: 2,
-        name: "Doritos - spicy",
+        name: "Doritos",
         description: "Very spicy, avoid giving to childrens",
-        image: "https://www.doritos.com/sites/doritos.com/files/2018-08/new-spicy-nacho.png",
+        image: "https://images2.minutemediacdn.com/image/fetch/w_736,h_485,c_fill,g_auto,f_auto/https%3A%2F%2Ffoodsided.com%2Ffiles%2F2021%2F12%2FFLCH-Photo-1-850x560.jpg",
         price: 4.99
     },
     eggs: {
@@ -53,12 +53,12 @@ class Item {
           
           <h2>${name}</h2>
           <p>$${price} per Item</p>
-          <p>${description}</p>
+          <p class="item-description">${description}</p>
           <div class="item-footer">
             <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
+            <input type="number" id="quantity" name="quantity" onkeypress="return event.charCode >= 48" value="1" min="1" max="99">
             <p id="total">Total: $${(price).toFixed(2)}</p>
-            <button class="item-btn" id="btn">Add to cart</button>
+            <button class="item-btn">Add to cart</button>
           </div>`;
           li.classList.add('item-box')
           return li
