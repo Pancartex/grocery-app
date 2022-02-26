@@ -36,6 +36,9 @@ const groceryItems = {
     }
 }
 
+
+let currentTotal = 0
+
 class Item {
   constructor(data) {
 
@@ -43,6 +46,8 @@ class Item {
     this.itemNode = this.createItemNode()
     this.checkoutItemNode = this.createCheckoutItem()
     this.quantityInput = this.itemNode.querySelector('input') // ???? .value?
+    this.checkoutItemPrice = 0
+    this.checkoutItemQuantity = 0
   }
   
       createItemNode() {
@@ -92,15 +97,23 @@ class Item {
 
         addToCart.addEventListener('click', () => {
           checkoutList.append(this.checkoutItemNode)
-          checkoutParagraph.textContent = `${quantityInput.value}x ${name} - $${(quantityInput.value * price).toFixed(2)}`
+          this.checkoutItemPrice += quantityInput.value * price
+          this.checkoutItemQuantity += Number(quantityInput.value)
+          currentTotal += quantityInput.value * price
+          checkoutParagraph.textContent = `${this.checkoutItemQuantity}x ${name} - $${(this.checkoutItemPrice).toFixed(2)}`
           addedToCartHeader.textContent = ` - added ${quantityInput.value}x ${name} to cart`
           quantityInput.value = 1;
           totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
+          document.getElementById('checkout-total').textContent = `${currentTotal}`
 
         })
 
         deleteFromCart.addEventListener('click', () => {
           this.checkoutItemNode.remove()
+          currentTotal -= this.checkoutItemPrice
+          this.checkoutItemPrice = 0
+          this.checkoutItemQuantity = 0
+          document.getElementById('checkout-total').textContent = `${currentTotal}`
         })
 
 
