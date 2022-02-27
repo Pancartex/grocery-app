@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/766653e7dc.js" crossorigin="anonymous"></script>
   </head>
+
   <body>
 
     <div class="wrapper">
@@ -17,16 +18,18 @@
         <ul class="list-container"></ul>
       </div>
 
-      <div id="checkout-card" class="sticky">
+      <div id="checkout-card">
 
-        <h5 class="checkout-header">checkout <span id="added-to-cart"></span></h5>
+        <h5 class="checkout-header">checkout - Total: $<span id="added-to-cart">0.00</span></h5>
         
         <div id="checkout-content" style="display: none;">
           <br />
           <ul class="checkout-list"></ul>
           <br />
-          <p>Total: $<span id="checkout-total">0.00</span></p>
-          <button id="checkout-btn">Checkout</button>
+          <div class="checkout-footer">
+            <p>Total: $<span id="checkout-total">0.00</span></p>
+            <button id="checkout-btn">Checkout</button>
+          </div>
         </div> 
       </div>
 
