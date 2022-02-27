@@ -3,21 +3,21 @@ const groceryItems = {
         id: 1,
         name: "Milk",
         description: "Before the late 1960s, milk was packaged in heavy, Now plastic bags!",
-        image: "https://i.stack.imgur.com/ofltz.jpg",
+        image: "https://beatrice.ca/static/wp-content/uploads/updates/2pct-partly-skimmed-milk-1l-carton-nat-thumb.png",
         price: 1.99
     },
-    crisp: {
+    chips: {
         id: 2,
-        name: "Doritos",
+        name: "Chips",
         description: "Very spicy, avoid giving to childrens",
-        image: "https://images2.minutemediacdn.com/image/fetch/w_736,h_485,c_fill,g_auto,f_auto/https%3A%2F%2Ffoodsided.com%2Ffiles%2F2021%2F12%2FFLCH-Photo-1-850x560.jpg",
+        image: "https://image.made-in-china.com/202f0j00QPdYioAKwnbO/Three-Side-Seal-Food-Bag-Coffee-Packaging-Chips-Crisps.jpg",
         price: 4.99
     },
     eggs: {
         id: 3,
         name: "Eggs",
         description: "comes in a pack of 12, in a box",
-        image: "https://i5.walmartimages.ca/images/Enlarge/924/227/6000197924227.jpg",
+        image: "http://grayridge.com/dev/wp-content/uploads/2017/12/brown-xl.jpg",
         price: 3.50
     },
     bread: {
@@ -36,6 +36,9 @@ const groceryItems = {
     }
 }
 
+const checkoutList = document.querySelector('.checkout-list')
+const addedToCartHeader = document.getElementById('added-to-cart')
+const checkoutTotal = document.getElementById('checkout-total')
 
 let currentTotal = 0
 
@@ -55,10 +58,9 @@ class Item {
         const li = document.createElement('li')
          li.innerHTML = `
           <img class="item-img" src="${image}">
-          
-          <h2>${name}</h2>
-          <p>$${price} per Item</p>
+          <h2 class="item-title">${name} - $${(price).toFixed(2)}</h2>
           <p class="item-description">${description}</p>
+
           <div class="item-footer">
             <label for="quantity">Quantity</label>
             <input type="number" id="quantity" name="quantity" onkeypress="return event.charCode >= 48" value="1" min="1" max="99">
@@ -86,8 +88,6 @@ class Item {
         const { name, price, quantityInput } = this;
         const totalPriceParagraph = this.itemNode.querySelector('#total')
         const addToCart = this.itemNode.querySelector('button')
-        const checkoutList = document.querySelector('.checkout-list')
-        const addedToCartHeader = document.getElementById('added-to-cart')
         const deleteFromCart = this.checkoutItemNode.querySelector('.delete-checkout-btn')
         const checkoutParagraph = this.checkoutItemNode.querySelector('p') // ??????
 
@@ -101,10 +101,10 @@ class Item {
           this.checkoutItemQuantity += Number(quantityInput.value)
           currentTotal += quantityInput.value * price
           checkoutParagraph.textContent = `${this.checkoutItemQuantity}x ${name} - $${(this.checkoutItemPrice).toFixed(2)}`
-          addedToCartHeader.textContent = ` - added ${quantityInput.value}x ${name} to cart`
+          addedToCartHeader.textContent = `${(currentTotal).toFixed(2)}`
           quantityInput.value = 1;
           totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
-          document.getElementById('checkout-total').textContent = `${currentTotal}`
+          checkoutTotal.textContent = `${(currentTotal).toFixed(2)}`
 
         })
 
@@ -113,7 +113,8 @@ class Item {
           currentTotal -= this.checkoutItemPrice
           this.checkoutItemPrice = 0
           this.checkoutItemQuantity = 0
-          document.getElementById('checkout-total').textContent = `${currentTotal}`
+          checkoutTotal.textContent = `${(currentTotal).toFixed(2)}`
+          addedToCartHeader.textContent = `${(currentTotal).toFixed(2)}`
         })
 
 
@@ -129,14 +130,16 @@ class Item {
 }
 
 
+//there must be a simpler way to create/ render these
+
 const milk = new Item(groceryItems.milk)
-const crisp = new Item(groceryItems.crisp)
+const chips = new Item(groceryItems.chips)
 const eggs = new Item(groceryItems.eggs)
 const bread = new Item(groceryItems.bread)
 const cheese = new Item(groceryItems.cheese)
 
 milk.render()
-crisp.render()
+chips.render()
 eggs.render()
 bread.render()
 cheese.render()

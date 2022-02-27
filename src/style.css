@@ -86,8 +86,9 @@ html, body {
 }
 
 #quantity {
-    padding-left: 5px;
+    padding: 3px 5px;
     border: 1px solid rgba(0,0,0,0.7);
+    border-radius: 5px;
 }
 
 /* checkout CSS starts here */
@@ -111,6 +112,7 @@ html, body {
 .checkout-img {
     max-width: 50px;
     max-height: 50px;
+    object-fit: cover;
 }
 
 .checkout-header {
@@ -123,7 +125,7 @@ html, body {
 }
 
 #checkout-content {
-    height: 80vh;
+    min-height: 80vh;
     overflow: auto;
     transition-timing-function: ease-out;
     transition: 0.25s;
@@ -137,6 +139,10 @@ html, body {
 .checkout-item {
     display: flex;
     justify-content: space-between;
+    border: 2px solid rgba(36, 37, 38, 0.8);
+    padding: 2px 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
 }
 
 .delete-checkout-btn {
@@ -146,6 +152,25 @@ html, body {
 
 .delete-checkout-btn:active {
     color: red;
+}
+
+.checkout-footer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#checkout-btn {
+    background-color: #fff;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: all 0.2s ease-out;
+}
+
+#checkout-btn:active {
+    background-color: rgba(36, 37, 38, 0.8);
+    color: #fff;
 }
 
 @keyframes fadeVisibility {
@@ -160,21 +185,52 @@ html, body {
 @media (min-width: 700px) {
     .wrapper {
         flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #main {
+        margin: 0;
+        padding: 0;
     }
 
     .list-container {
         display: flex;
         flex-wrap: wrap;
+        padding-right: 0;
+    }
+
+    .item-box {
         max-width: 300px;
-        max-height: 300px;
+        max-height: 500px;
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item-img {
+        min-height: 200px;
+    }
+
+    .item-description {
+        margin-top: 0;
+    }
+    .item-footer {
+        margin-top: auto;
     }
 
     #checkout-card {
         position: relative;
-        max-width: 200px;
+        max-width: 300px;
+        max-height: 800px;
+        margin-right: 50px;
+        margin-top: 40px;
+        bottom: auto;
     }
 
     #checkout-content {
         display: block !important;
+        min-height: 200px;
+        overflow: auto;
+        
     }
 }
