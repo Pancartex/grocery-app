@@ -1,44 +1,54 @@
 const groceryItems = {
     milk: {
-        id: 1,
         name: "Milk",
         description: "Before the late 1960s, milk was packaged in heavy, Now plastic bags!",
         image: "https://beatrice.ca/static/wp-content/uploads/updates/2pct-partly-skimmed-milk-1l-carton-nat-thumb.png",
         price: 1.99
     },
     chips: {
-        id: 2,
         name: "Chips",
-        description: "Very spicy, avoid giving to childrens",
+        description: "Very spicy, avoid giving to childrens.",
         image: "https://image.made-in-china.com/202f0j00QPdYioAKwnbO/Three-Side-Seal-Food-Bag-Coffee-Packaging-Chips-Crisps.jpg",
         price: 4.99
     },
     eggs: {
-        id: 3,
         name: "Eggs",
-        description: "comes in a pack of 12, in a box",
-        image: "http://grayridge.com/dev/wp-content/uploads/2017/12/brown-xl.jpg",
+        description: "Sold by the dozen. Fresh from the day.",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUDz5jZHOzGvdc9YByH2C8RMn8qgQcNdzVCg&usqp=CAU",
         price: 3.50
     },
     bread: {
-        id: 4,
         name: "Bread",
-        description: "Fresh from this morning",
+        description: "Fresh from this morning, made with love.",
         image: "http://www.canadabreadfoodservice.ca/wp-content/uploads/350.jpg",
         price: 2.69
     },
     cheese: {
-        id: 5,
         name: "cheese",
-        description: "swiss cheese",
+        description: "Swiss cheese sold by the kg.",
         image: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F19%2F2019%2F07%2F09%2Fswiss-cheese-2000.jpg",
         price: 6.99
+    },
+    oatmeal: {
+        name: "oatmeal",
+        description: "100% made of oat, in North America.",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO1LyEXFu0_STKBppbvMEv8-qPiroO20wfsw&usqp=CAU",
+        price: 3.99
+    },
+    oreo: {
+        name: "oreo",
+        description: "Cookies with chocolate cream.",
+        image: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F24%2F2020%2F08%2F14%2Foreo-hazelnut.jpg&q=60",
+        price: 4.99
     }
 }
 
 const checkoutList = document.querySelector('.checkout-list')
 const addedToCartHeader = document.getElementById('added-to-cart')
 const checkoutTotal = document.getElementById('checkout-total')
+const checkoutBtn = document.getElementById('checkout-btn')
+const checkoutOverlay = document.getElementById('checkout-overlay')
+const modalText = document.querySelector('.modal-text') 
 
 let currentTotal = 0
 
@@ -72,12 +82,11 @@ class Item {
         }
 
       createCheckoutItem() {
-        const { name, image, price, quantityInput } = this;
         const checkoutItem = document.createElement('li')
         checkoutItem.classList.add('checkout-item')
         
         checkoutItem.innerHTML = `
-            <img class="checkout-img" src="${image}">
+            <img class="checkout-img" src="${this.image}">
             <p></p>
             <button class="delete-checkout-btn"><i class="fa-solid fa-xmark"></i></button>
             `
@@ -95,17 +104,38 @@ class Item {
           totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
         })
 
+        quantityInput.addEventListener('keyup', (event) => {
+          if (event.key === 'Enter') {
+            this.checkoutItemPrice += quantityInput.value * price
+            this.checkoutItemQuantity += Number(quantityInput.value)
+            if (this.checkoutItemQuantity > 0) {
+              checkoutList.append(this.checkoutItemNode)
+              currentTotal += quantityInput.value * price
+              checkoutParagraph.textContent = `${this.checkoutItemQuantity}x ${name} - $${(this.checkoutItemPrice).toFixed(2)}`
+              addedToCartHeader.textContent = `${(currentTotal).toFixed(2)}`
+              quantityInput.value = 1;
+              totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
+              checkoutTotal.textContent = `${(currentTotal).toFixed(2)}`
+            } else {
+              alert('You must add a quantity of at least one to the cart')
+            }
+          }
+        })
+
         addToCart.addEventListener('click', () => {
-          checkoutList.append(this.checkoutItemNode)
           this.checkoutItemPrice += quantityInput.value * price
           this.checkoutItemQuantity += Number(quantityInput.value)
-          currentTotal += quantityInput.value * price
-          checkoutParagraph.textContent = `${this.checkoutItemQuantity}x ${name} - $${(this.checkoutItemPrice).toFixed(2)}`
-          addedToCartHeader.textContent = `${(currentTotal).toFixed(2)}`
-          quantityInput.value = 1;
-          totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
-          checkoutTotal.textContent = `${(currentTotal).toFixed(2)}`
-
+          if (this.checkoutItemQuantity > 0) {
+            checkoutList.append(this.checkoutItemNode)
+            currentTotal += quantityInput.value * price
+            checkoutParagraph.textContent = `${this.checkoutItemQuantity}x ${name} - $${(this.checkoutItemPrice).toFixed(2)}`
+            addedToCartHeader.textContent = `${(currentTotal).toFixed(2)}`
+            quantityInput.value = 1;
+            totalPriceParagraph.textContent = `Total: $${(quantityInput.value * price).toFixed(2)}`;
+            checkoutTotal.textContent = `${(currentTotal).toFixed(2)}`
+          } else {
+            alert('You must add a quantity of at least one to the cart')
+          }
         })
 
         deleteFromCart.addEventListener('click', () => {
@@ -116,8 +146,6 @@ class Item {
           checkoutTotal.textContent = `${(currentTotal).toFixed(2)}`
           addedToCartHeader.textContent = `${(currentTotal).toFixed(2)}`
         })
-
-
 
       }
 
@@ -137,12 +165,34 @@ const chips = new Item(groceryItems.chips)
 const eggs = new Item(groceryItems.eggs)
 const bread = new Item(groceryItems.bread)
 const cheese = new Item(groceryItems.cheese)
+const oatmeal = new Item(groceryItems.oatmeal)
+const oreo = new Item(groceryItems.oreo)
 
 milk.render()
 chips.render()
 eggs.render()
 bread.render()
 cheese.render()
+oatmeal.render()
+oreo.render()
+
+
+//checkout modal
+
+checkoutBtn.addEventListener('click', () => {
+    checkoutOverlay.style.display = "block";
+    if (currentTotal <= 0.1) {
+      modalText.textContent = `You must add at least one item to your cart`
+    } else {
+      modalText.textContent = `Congratulations! Your order of $${(currentTotal).toFixed(2)} will be delivered soon!`
+    }
+
+       
+})
+
+checkoutOverlay.addEventListener('click', () => {
+    checkoutOverlay.style.display = "none"
+})
 
 // function for mobile functionality & logic below
 
