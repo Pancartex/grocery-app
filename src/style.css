@@ -78,17 +78,52 @@ html, body {
     border-radius: 5px;
     font-weight: 700;
     transition: all 0.2s ease-out;
+    cursor: pointer;
+    background: linear-gradient(to left, transparent 50%, rgba(36, 37, 38, 0.8) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
 }
+
+  .item-btn:hover {
+    background-position: left bottom;
+    color: #fff;
+  }
 
 .item-btn:active {
     background-color: rgba(36, 37, 38, 0.8);
     color: #fff;
 }
 
-#quantity {
+input[type=number] {
     padding: 3px 5px;
     border: 1px solid rgba(0,0,0,0.7);
     border-radius: 5px;
+    background-color: rgba(36, 37, 38, 0.8);
+    color: #fff;
+    font-weight: 700;
+    height: 30px;
+    line-height: 20px;
+    font-size: 16px;
+}
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    cursor:pointer;
+    display:block;
+    width:8px;
+    color: rgba(36, 37, 38, 1);
+    text-align:center;
+    position:relative;
+    line-height: 25px;
+}    
+input[type=number]:hover::-webkit-inner-spin-button { 
+    background: #eee url('http://i.stack.imgur.com/YYySO.png') no-repeat 50% 50%;  
+    width: 14px;
+    height: 14px;
+    padding: 4px;
+    position: relative;
+    right: 4px;
+    border-radius: 28px;
+    line-height: 25px;
 }
 
 /* checkout CSS starts here */
@@ -122,6 +157,7 @@ html, body {
     cursor: pointer;
     border-bottom: 1px solid rgba(0,0,0,0.4);
     border-shadow: 5px 5px 12px 5px rgba(0,0,0,0.69);
+    text-align: center;
 }
 
 #checkout-content {
@@ -148,10 +184,13 @@ html, body {
 .delete-checkout-btn {
     background-color: #fff;
     border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
-.delete-checkout-btn:active {
-    color: red;
+.delete-checkout-btn:hover {
+    color: red !important;
 }
 
 .checkout-footer {
@@ -166,11 +205,51 @@ html, body {
     border-radius: 5px;
     font-weight: 700;
     transition: all 0.2s ease-out;
+    cursor: pointer;
+    background: linear-gradient(to left, transparent 50%, rgba(36, 37, 38, 0.8) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+}
+
+#checkout-btn:hover {
+    background-position: left bottom;
+    color: #fff;
 }
 
 #checkout-btn:active {
     background-color: rgba(36, 37, 38, 0.8);
     color: #fff;
+}
+
+#checkout-overlay {
+    display:none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#checkout-modal {
+    background-color: #fbfbfb;
+    max-width: 600px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    height: 200px;
+    position: relative;
+    top: 30%;
+    border-radius: 10px;
+}
+
+.modal-text {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 @keyframes fadeVisibility {
@@ -221,16 +300,35 @@ html, body {
     #checkout-card {
         position: relative;
         max-width: 300px;
-        max-height: 800px;
+        min-height: 340px;
+        height: auto;
         margin-right: 50px;
         margin-top: 40px;
         bottom: auto;
+        border-radius: 8px;
+    }
+
+    .checkout-header {
+        cursor: default;
     }
 
     #checkout-content {
-        display: block !important;
-        min-height: 200px;
+        display: flex !important;
+        min-height: inherit;
         overflow: auto;
-        
+        flex-direction: column;
+    }
+
+    .checkout-item .delete-checkout-btn {
+        visibility: hidden;
+    }
+    
+    .checkout-item:hover  .delete-checkout-btn {
+        visibility: visible;
+    }
+
+    .checkout-footer {
+        margin-top: auto;
+        margin-bottom: 50px;
     }
 }

@@ -12,23 +12,31 @@
 
   <body>
 
+    <div id="checkout-overlay">
+      <div id="checkout-modal">
+        <p class="modal-text"></p>
+      </div>
+    </div>
+
     <div class="wrapper">
 
       <div id="main">
         <ul class="list-container"></ul>
       </div>
 
-      <div id="checkout-card">
+      <div id="side">
+        <div id="checkout-card">
 
-        <h5 class="checkout-header">checkout - Total: $<span id="added-to-cart">0.00</span></h5>
-        
-        <div id="checkout-content" style="display: none;">
-          <br />
-          <ul class="checkout-list"></ul>
-          <br />
-          <div class="checkout-footer">
-            <p>Total: $<span id="checkout-total">0.00</span></p>
-            <button id="checkout-btn">Checkout</button>
+          <h5 class="checkout-header">Checkout - Total: $<span id="added-to-cart">0.00</span></h5>
+          
+          <div id="checkout-content" style="display: none;">
+            <br />
+            <ul class="checkout-list"></ul>
+            <br />
+            <div class="checkout-footer">
+              <p>Total: $<span id="checkout-total">0.00</span></p>
+              <button id="checkout-btn">Checkout</button>
+            </div>
           </div>
         </div> 
       </div>
